@@ -32,6 +32,9 @@ def movement(header, points, solutions):
     least_solution = min(length)
     min_point = solutions[length.index(least_solution)][0]
 
+    for point in solutions[length.index(least_solution)]:
+        point['visited'] = False
+
     # percorre todos os pontos não visitados procurando uma soluçao melhor
     for point in points:
         if point != min_point and not point['visited']:
@@ -46,13 +49,20 @@ def movement(header, points, solutions):
             for point2 in points:
                 if not point2['visited'] and distance(point, point2) <= header['range']:
                     new_solution.append(point2)
-                    point['visited'] = True
+                    point2['visited'] = True
 
             # verifica se a nova solução é melhor
-            if (len(new_solution) > least_solution):
-                solutions[least_solution] = new_solution
+            if (len(new_solution) > length[length.index(least_solution)]):
+                solutions[length.index(least_solution)] = new_solution
                 # retorna a lista com a solução encontrada
                 return solutions
+            else:
+                for point in new_solution:
+                    point['visited'] = False
+
+
+    for point in solutions[length.index(least_solution)]:
+        point['visited'] = True
 
 # gera uma lista de soluções data um conjunto de pontos e número de facilities e range
 def generate(header, points):
@@ -78,10 +88,6 @@ def generate(header, points):
             if not point['visited'] and  distance(point, points[position]) <= header['range']:
                 solutions[i].append(point)
                 point['visited'] = True
-
-    for facility in solutions:
-        #posição das facilities
-        print(facility[0]['x'], facility[0]['y'])
     
     return solutions
 
@@ -92,5 +98,19 @@ if __name__ ==  '__main__':
     header, points = readFile(sys.argv[1])
     # calcula a lista de soluções
     solutions = generate(header, points)
+    covered = 0
+    for facility in solutions:
+        #posição das facilities
+        print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
+        covered += len(facility)
+    print ('Total de pontos cobertos:', covered)
     # executa o movimento de vizinhança
     new_solutions = movement(header, points, solutions)
+    for i in range(15):
+        new_solutions = movement(header, points, new_solutions)
+    covered = 0
+    for facility in new_solutions:
+        #posição das facilities
+        print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
+        covered += len(facility)
+    print ('Total de pontos cobertos:', covered)
