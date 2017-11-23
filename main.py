@@ -45,7 +45,7 @@ def movement(header, points, solutions):
             # adiciona os outros pontos que estão no range
             for point2 in points:
                 if not point2['visited'] and  distance(point, point2) <= header['range']:
-                    new_solution.append(point)
+                    new_solution.append(point2)
                     point['visited'] = True
 
             # verifica se a nova solução é melhor
