@@ -32,7 +32,7 @@ def movement(header, points, solutions):
     least_solution = min(length)
     min_point = solutions[length.index(least_solution)][0]
 
-    # percorre todos os pontos procurando uma soluçao melhor
+    # percorre todos os pontos não visitados procurando uma soluçao melhor
     for point in points:
         if point != min_point and not point['visited']:
 
@@ -44,12 +44,12 @@ def movement(header, points, solutions):
 
             # adiciona os outros pontos que estão no range
             for point2 in points:
-                if not point2['visited'] and  distance(point, point2) <= header['range']:
+                if not point2['visited'] and distance(point, point2) <= header['range']:
                     new_solution.append(point2)
                     point['visited'] = True
 
             # verifica se a nova solução é melhor
-            if (len(solution) > least_solution):
+            if (len(new_solution) > least_solution):
                 solutions[least_solution] = new_solution
                 # retorna a lista com a solução encontrada
                 return solutions
