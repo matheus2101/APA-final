@@ -34,7 +34,7 @@ def movement(header, points, solutions):
 
     # percorre todos os pontos procurando uma soluçao melhor
     for point in points:
-        if point != min_point:
+        if point != min_point and not point['visited']:
 
             # adiciona o ponto na primeira posição da lista
             new_solution = [point]
