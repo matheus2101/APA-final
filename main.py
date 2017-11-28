@@ -63,14 +63,11 @@ def movement(header, points, solutions):
 
     for point in solutions[length.index(least_solution)]:
         point['visited'] = True
-    
-    # chegou no fim, retorna a própria solução
-    return solutions
 
 # gera uma lista de soluções data um conjunto de pontos e número de facilities e range
 def generate(header, points):
     solutions = []
-    adj = []
+    gul = []
 
     # monta um array com a quantidade de pontos cobertos para cada ponto na entrada
     for point in points:
@@ -87,23 +84,23 @@ def generate(header, points):
         point['visited'] = False
 
         # coloca a tupla (ponto, quantidade de pontos cobertos) na lista
-        adj.append([point, len(aux)])
+        gul.append([point, len(aux)])
 
     # ordena a lista pelos pontos que cobrem mais pontos
-    adj = sorted(adj, key=lambda rev: adj[1], reverse=True)
+    gul = sorted(gul, key=lambda meh: meh[1], reverse=True)
 
     # monta a lista de soluções escolhida
     j = 0
     for i in range(header['facilities']):
-        while adj[j][0]['visited'] == True:
+        while gul[j][0]['visited'] == True:
             j += 1
             continue
 
-        solutions.append([adj[j][0]])
-        points[points.index(adj[j][0])]['visited'] = True
+        solutions.append([gul[j][0]])
+        points[points.index(gul[j][0])]['visited'] = True
         
         for point in points:
-            if not point['visited'] and distance(point, adj[j][0]) <= header['range']:
+            if not point['visited'] and distance(point, gul[j][0]) <= header['range']:
                 solutions[i].append(point)
                 point['visited'] = True
     
@@ -124,8 +121,11 @@ if __name__ ==  '__main__':
     print ('Total de pontos cobertos:', covered)
     # executa o movimento de vizinhança
     new_solutions = movement(header, points, solutions)
-    for i in range(70):
-        new_solutions = movement(header, points, new_solutions)
+    aux_solutions = []
+    while aux_solutions is not None:
+        aux_solutions = movement(header, points, new_solutions)
+        if aux_solutions is not None:
+            new_solutions = aux_solutions
     covered = 0
     for facility in new_solutions:
         #posição das facilities
