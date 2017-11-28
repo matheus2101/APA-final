@@ -63,29 +63,47 @@ def movement(header, points, solutions):
 
     for point in solutions[length.index(least_solution)]:
         point['visited'] = True
+    
+    # chegou no fim, retorna a própria solução
+    return solutions
 
 # gera uma lista de soluções data um conjunto de pontos e número de facilities e range
 def generate(header, points):
     solutions = []
+    adj = []
 
-    # executa uma vez para cada facility
-    for i in range(header['facilities']):
-        # escolhe uma posição inicial aleatória na lista de pontos
-        position = randrange(0, len([points]))
-
-        # verifica se o ponto na posição escolhida foi visitada
-        # em caso afirmativo, escolhe outra posição
-        while points[position]['visited']:
-            position = randrange(0, len(points))
-        
+    # monta um array com a quantidade de pontos cobertos para cada ponto na entrada
+    for point in points:
+        aux = []
         # adiciona o ponto na primeira posição da lista
-        solutions.append([points[position]])
+        aux.append(point)
         # marca como visitado
-        points[position]['visited'] = True
+        point['visited'] = True
 
         # adiciona os outros pontos que estão no range
+        for point2 in points:
+            if not point2['visited'] and distance(point2, point) <= header['range']:
+                aux.append(point2)
+        point['visited'] = False
+
+        # coloca a tupla (ponto, quantidade de pontos cobertos) na lista
+        adj.append([point, len(aux)])
+
+    # ordena a lista pelos pontos que cobrem mais pontos
+    adj = sorted(adj, key=lambda rev: adj[1], reverse=True)
+
+    # monta a lista de soluções escolhida
+    j = 0
+    for i in range(header['facilities']):
+        while adj[j][0]['visited'] == True:
+            j += 1
+            continue
+
+        solutions.append([adj[j][0]])
+        points[points.index(adj[j][0])]['visited'] = True
+        
         for point in points:
-            if not point['visited'] and  distance(point, points[position]) <= header['range']:
+            if not point['visited'] and distance(point, adj[j][0]) <= header['range']:
                 solutions[i].append(point)
                 point['visited'] = True
     
@@ -106,7 +124,7 @@ if __name__ ==  '__main__':
     print ('Total de pontos cobertos:', covered)
     # executa o movimento de vizinhança
     new_solutions = movement(header, points, solutions)
-    for i in range(15):
+    for i in range(70):
         new_solutions = movement(header, points, new_solutions)
     covered = 0
     for facility in new_solutions:
