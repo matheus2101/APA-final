@@ -144,6 +144,8 @@ def grasp(header, points, solutions, gulosa, loop, alpha):
     for i in range(loop):
         new_solution = []
         gul = gulosa[::]
+        for point in points:
+            point['visited'] = False
         for i in range(header['facilities']):
             parttempsolution = []
             rcl = makercl(alpha, gul)
@@ -154,10 +156,10 @@ def grasp(header, points, solutions, gulosa, loop, alpha):
             for point in points:
                 if not point['visited'] and distance(point, parttempsolution[0]) <= header['range']:
                     parttempsolution.append(point)
+                    point['visited'] = True
                     for element in gul:
                         if element[0] == point:
                             gul.pop(gul.index(element))
-            points[points.index(rcl[facility][0])]['visited'] = False
             new_solution.append(parttempsolution)
         covered = 0
         for facility in solutions:
@@ -165,14 +167,14 @@ def grasp(header, points, solutions, gulosa, loop, alpha):
         solution = 0
         for facility in new_solution:
             solution += len(facility)
-        if covered > solution:
+        if solution >= covered:
             solutions = new_solution
     return solutions
 
 def makercl(alpha, gul):
     rcl = []
     for point in gul:
-            if point[1] >= alpha*gul[0][1]:
+            if point[1] >= alpha*(gul[0][1] + gul[len(gul)-1][1]):
                 rcl.append(point)
     return rcl
 
@@ -203,7 +205,7 @@ if __name__ ==  '__main__':
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
     plot(new_solutions, points, header, 'solução final (30 facilities)')
-    grasp_solutions = grasp(header, points, solutions[::], gul[::], 5, 0.99)
+    grasp_solutions = grasp(header, points, solutions[::], gul[::], 5, 0.85)
     covered = 0
     for facility in grasp_solutions:
         #posição das facilities
