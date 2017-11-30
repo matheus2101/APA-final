@@ -140,6 +140,42 @@ def plot(solutions, points, header, title):
     plt.xlabel('X')
     plt.show()
 
+def grasp(header, points, solutions, gulosa, loop, alpha):
+    for i in range(loop):
+        new_solution = []
+        gul = gulosa[::]
+        for i in range(header['facilities']):
+            parttempsolution = []
+            rcl = makercl(alpha, gul)
+            facility = randrange(0, len(rcl))
+            parttempsolution.append(rcl[facility][0])
+            gul.pop(gul.index(rcl[facility]))
+            points[points.index(rcl[facility][0])]['visited'] = True
+            for point in points:
+                if not point['visited'] and distance(point, parttempsolution[0]) <= header['range']:
+                    parttempsolution.append(point)
+                    for element in gul:
+                        if element[0] == point:
+                            gul.pop(gul.index(element))
+            points[points.index(rcl[facility][0])]['visited'] = False
+            new_solution.append(parttempsolution)
+        covered = 0
+        for facility in solutions:
+            covered += len(facility)
+        solution = 0
+        for facility in new_solution:
+            solution += len(facility)
+        if covered > solution:
+            solutions = new_solution
+    return solutions
+
+def makercl(alpha, gul):
+    rcl = []
+    for point in gul:
+            if point[1] >= alpha*gul[0][1]:
+                rcl.append(point)
+    return rcl
+
 if __name__ ==  '__main__':
     # processa o arquivo passado
     header, points = readFile(sys.argv[1])
