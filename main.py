@@ -190,9 +190,9 @@ if __name__ ==  '__main__':
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
 
+    plot(solutions, points, header, 'solução gulosa (30 facilities)')
     # executa o movimento de vizinhança
     new_solutions = movement(header, points, solutions)
-    plot(new_solutions, points, header, 'solução gulosa (30 facilities)')
     aux_solutions = []
     while aux_solutions is not None:
         aux_solutions = movement(header, points, new_solutions)
@@ -204,12 +204,12 @@ if __name__ ==  '__main__':
         print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
-    plot(new_solutions, points, header, 'solução final (30 facilities)')
-    grasp_solutions = grasp(header, points, solutions[::], gul[::], 5, 0.85)
+    plot(new_solutions, points, header, 'solução movimento de vizinhança (30 facilities)')
+    grasp_solutions = grasp(header, points, solutions[::], gul[::], 10, 0.85)
     covered = 0
     for facility in grasp_solutions:
         #posição das facilities
         print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
-
+    plot(grasp_solutions, points, header, 'solução final (30 facilities)')
