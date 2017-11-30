@@ -109,8 +109,6 @@ def generate(header, points):
     return solutions, gul
 
 def plot(solutions, points, header, title):
-    # plt.plot([1,2,3,4], [1,4,9,16], 'ro')
-    # plt.axis([0, 6, 0, 20])
     xs = []
     ys = []
     xs_facilities = []
@@ -190,7 +188,7 @@ if __name__ ==  '__main__':
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
 
-    plot(solutions, points, header, 'solução gulosa (30 facilities)')
+    # plot(solutions, points, header, 'solução gulosa (30 facilities)')
     # executa o movimento de vizinhança
     new_solutions = movement(header, points, solutions)
     aux_solutions = []
@@ -204,7 +202,7 @@ if __name__ ==  '__main__':
         print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
-    plot(new_solutions, points, header, 'solução movimento de vizinhança (30 facilities)')
+    # plot(new_solutions, points, header, 'solução movimento de vizinhança (30 facilities)')
     grasp_solutions = grasp(header, points, solutions[::], gul[::], 10, 0.85)
     covered = 0
     for facility in grasp_solutions:
@@ -212,4 +210,4 @@ if __name__ ==  '__main__':
         print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
-    plot(grasp_solutions, points, header, 'solução final (30 facilities)')
+    # plot(grasp_solutions, points, header, 'solução final (30 facilities)')

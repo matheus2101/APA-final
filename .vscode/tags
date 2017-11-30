@@ -4,15 +4,19 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-aux_solutions	../main.py	/^        aux_solutions = movement(header, points, new_solutions)$/;"	kind:variable	line:126
-aux_solutions	../main.py	/^    aux_solutions = []$/;"	kind:variable	line:124
-covered	../main.py	/^    covered = 0$/;"	kind:variable	line:116
-covered	../main.py	/^    covered = 0$/;"	kind:variable	line:129
-distance	../main.py	/^def distance(a, b):$/;"	kind:function	line:21
-generate	../main.py	/^def generate(header, points):$/;"	kind:function	line:68
+aux_solutions	../main.py	/^        aux_solutions = movement(header, points, new_solutions)$/;"	kind:variable	line:196
+aux_solutions	../main.py	/^    aux_solutions = []$/;"	kind:variable	line:194
+covered	../main.py	/^    covered = 0$/;"	kind:variable	line:184
+covered	../main.py	/^    covered = 0$/;"	kind:variable	line:199
+covered	../main.py	/^    covered = 0$/;"	kind:variable	line:207
+distance	../main.py	/^def distance(a, b):$/;"	kind:function	line:23
+generate	../main.py	/^def generate(header, points):$/;"	kind:function	line:70
+grasp	../main.py	/^def grasp(header, points, solutions, gulosa, loop, alpha):$/;"	kind:function	line:141
+grasp_solutions	../main.py	/^    grasp_solutions = grasp(header, points, solutions[::], gul[::], 10, 0.85)$/;"	kind:variable	line:206
 main.py	../main.py	1;"	kind:file	line:1
-movement	../main.py	/^def movement(header, points, solutions):$/;"	kind:function	line:25
-new_solutions	../main.py	/^            new_solutions = aux_solutions$/;"	kind:variable	line:128
-new_solutions	../main.py	/^    new_solutions = movement(header, points, solutions)$/;"	kind:variable	line:123
-readFile	../main.py	/^def readFile(filename):$/;"	kind:function	line:6
-solutions	../main.py	/^    solutions = generate(header, points)$/;"	kind:variable	line:115
+makercl	../main.py	/^def makercl(alpha, gul):$/;"	kind:function	line:172
+movement	../main.py	/^def movement(header, points, solutions):$/;"	kind:function	line:27
+new_solutions	../main.py	/^            new_solutions = aux_solutions$/;"	kind:variable	line:198
+new_solutions	../main.py	/^    new_solutions = movement(header, points, solutions)$/;"	kind:variable	line:193
+plot	../main.py	/^def plot(solutions, points, header, title):$/;"	kind:function	line:111
+readFile	../main.py	/^def readFile(filename):$/;"	kind:function	line:8
