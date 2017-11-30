@@ -1,6 +1,8 @@
 import sys
 from random import randrange
 from math import sqrt
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 # lê o arquivo com os pontos
 def readFile(filename):
@@ -106,7 +108,37 @@ def generate(header, points):
     
     return solutions
 
+def plot(solutions, points, header, title):
+    # plt.plot([1,2,3,4], [1,4,9,16], 'ro')
+    # plt.axis([0, 6, 0, 20])
+    xs = []
+    ys = []
+    xs_facilities = []
+    ys_facilities = []
+    xs_visited = []
+    ys_visited = []
 
+    for solution in solutions:
+        for point in solution:
+            if point == solution[0]:
+                xs_facilities.append(point['x'])
+                ys_facilities.append(point['y'])
+            else:
+                xs_visited.append(point['x'])
+                ys_visited.append(point['y'])
+    
+    for point in points:
+        if point['visited'] is not True:
+            xs.append(point['x'])
+            ys.append(point['y'])
+
+    plt.plot(xs_facilities, ys_facilities, 'yo', markersize=60, alpha=0.3)
+    plt.plot(xs_visited, ys_visited, 'bo', markersize=2)
+    plt.plot(xs, ys, 'bo', markersize=2)
+    plt.title(title)
+    plt.ylabel('Y')
+    plt.xlabel('X')
+    plt.show()
 
 if __name__ ==  '__main__':
     # processa o arquivo passado
@@ -119,8 +151,10 @@ if __name__ ==  '__main__':
         print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
+
     # executa o movimento de vizinhança
     new_solutions = movement(header, points, solutions)
+    plot(new_solutions, points, header, 'solução gulosa (30 facilities)')
     aux_solutions = []
     while aux_solutions is not None:
         aux_solutions = movement(header, points, new_solutions)
@@ -132,3 +166,4 @@ if __name__ ==  '__main__':
         print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
+    plot(new_solutions, points, header, 'solução final (30 facilities)')
