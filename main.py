@@ -106,7 +106,7 @@ def generate(header, points):
                 solutions[i].append(point)
                 point['visited'] = True
     
-    return solutions
+    return solutions, gul
 
 def plot(solutions, points, header, title):
     # plt.plot([1,2,3,4], [1,4,9,16], 'ro')
@@ -180,7 +180,7 @@ if __name__ ==  '__main__':
     # processa o arquivo passado
     header, points = readFile(sys.argv[1])
     # calcula a lista de soluções
-    solutions = generate(header, points)
+    solutions, gul = generate(header, points)
     covered = 0
     for facility in solutions:
         #posição das facilities
@@ -203,3 +203,11 @@ if __name__ ==  '__main__':
         covered += len(facility)
     print ('Total de pontos cobertos:', covered)
     plot(new_solutions, points, header, 'solução final (30 facilities)')
+    grasp_solutions = grasp(header, points, solutions[::], gul[::], 5, 0.99)
+    covered = 0
+    for facility in grasp_solutions:
+        #posição das facilities
+        print('Posicao da facility (xy):', facility[0]['x'], facility[0]['y'], '|| Pontos cobertos:', len(facility))
+        covered += len(facility)
+    print ('Total de pontos cobertos:', covered)
+
